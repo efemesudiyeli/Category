@@ -60,6 +60,4 @@ class GameViewModel: ObservableObject {
     func endGame() -> Void {
         isGameEnded = true
     }
-    
-   
 }

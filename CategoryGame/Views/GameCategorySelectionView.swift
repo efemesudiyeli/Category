@@ -51,6 +51,7 @@ struct GameCategorySelectionView: View {
                     Button {
                         gameViewModel.changePlayersSelectedItem(item: gameViewModel.turnBelongsToSelectedItem)
                         gameViewModel.selectNextPlayersTurn()
+                        gameViewModel.turnBelongsToSelectedItem = ""
                     } label: {
                         MainButton(buttonText: "Next Player", isCTA: true)
                     }.disabled(gameViewModel.turnBelongsToSelectedItem.isEmpty)
