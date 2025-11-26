@@ -36,27 +36,45 @@ struct GameCategorySelectionView: View {
                                 gameViewModel.changePlayersSelectedItem(item: gameViewModel.turnBelongsToSelectedItem)
 
                             }
+                            .onAppear {
+                                if let item = categoryViewModel.selectRandomItem() {
+                                    gameViewModel.turnBelongsToSelectedItem = item.name
+                                }
+                            }
+                            .overlay(alignment: .trailing) {
+                                Button {
+                                    
+                                    if let item = categoryViewModel.selectRandomItem() {
+                                        gameViewModel.turnBelongsToSelectedItem = item.name
+                                    }
+                                    
+                                } label: {
+                                    Image(systemName: "arrow.clockwise")
+                                }
+                                .padding(.trailing, 6)
+                            }
                 }
-                
-                if gameViewModel.isLastPlayersTurn() {
-                    // Start
-                    NavigationLink {
-                        GameView(gameViewModel: gameViewModel)
-                    } label: {
-                        MainButton(buttonText: "Start", isCTA: true)
-                    }.disabled(gameViewModel.turnBelongsToSelectedItem.isEmpty)
-
-                } else {
-                    // Next
-                    Button {
-                        gameViewModel.changePlayersSelectedItem(item: gameViewModel.turnBelongsToSelectedItem)
-                        gameViewModel.selectNextPlayersTurn()
-                        gameViewModel.turnBelongsToSelectedItem = ""
-                    } label: {
-                        MainButton(buttonText: "Next Player", isCTA: true)
-                    }.disabled(gameViewModel.turnBelongsToSelectedItem.isEmpty)
-                }
-               
+        
+                    if gameViewModel.isLastPlayersTurn() {
+                        // Start
+                        NavigationLink {
+                            GameView(gameViewModel: gameViewModel)
+                        } label: {
+                            MainButton(buttonText: "Start", isCTA: true)
+                        }.disabled(gameViewModel.turnBelongsToSelectedItem.isEmpty)
+                        
+                    } else {
+                        // Next
+                        Button {
+                            gameViewModel.changePlayersSelectedItem(item: gameViewModel.turnBelongsToSelectedItem)
+                            gameViewModel.selectNextPlayersTurn()
+                            if let item = categoryViewModel.selectRandomItem() {
+                                gameViewModel.turnBelongsToSelectedItem = item.name
+                            }
+                        } label: {
+                            MainButton(buttonText: "Next Player", isCTA: true)
+                        }.disabled(gameViewModel.turnBelongsToSelectedItem.isEmpty)
+                    }
             }.padding()
         }.onAppear {
             categoryViewModel.selectRandomCategory()
